@@ -1,0 +1,122 @@
+﻿
+@model List<BooksItem>
+@{
+	ViewData["Title"] = "Книги";
+	var genreView = new Genre();	
+	int c = 0; 
+}
+ <body>
+ <h1>@ViewBag.genreTag</h1>
+</body>
+	 <section>	
+		<div class="div-box">
+		<form method="post">
+            		<h3> По жанру:</h3>
+					<select name="genre">
+                    @foreach (Genre entity in BooksItem.allGenre)
+                    {  
+						<label><option value="@entity.genreName"> @entity.genreName </option></label>
+                    }
+					</select>
+					 <input type="submit" value="Выбрать" />
+				</form>
+                </div> 
+			  <div class="posts">	
+				@for (int i = 1; i < 10; i++)
+				@foreach (BooksItem entity in Model)
+			{					
+				
+				<article>
+					<a asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID" class="image"> <img src="~/img/@($"{entity.img}")" alt=""/></a>
+					<h3>  Название: @($"{entity.name}")</h3><div>
+						Жанр: @foreach (var genre in entity.Genres)
+						{
+							<a> 
+								@foreach (var g in BooksItem.allGenre)
+							{
+										if (genre.GenreID == g.ID)
+											 genreView.genreName = g.genreName;
+							}	@($"{genreView.genreName}") 
+								 </a>
+						}
+					<div class = "container">
+					<div class="box"> 
+					@($"{entity.desc}")
+					</div>	
+					</div>
+					</div>
+					<div class="clik">
+					<input type="button" value="Подробнее" onclick="document.getElementsByClassName('box')[@c].style.cssText=`
+						overflow: hidden;
+						display: -webkit-box;
+						-webkit-line-clamp: 3;
+						-webkit-box-orient: vertical;
+						 line-height: 1.3em;
+						 height: 20em;
+						width:400;
+						`"/>
+					<a class="sss" >@(c++)</a>
+					
+					</div>
+				</article>@if(c>=24)break;
+				
+			}</div>
+
+</section>
+<-- Section -->	
+@foreach (BooksItem entity in Model)
+			{
+								<section>
+									<header class="major">
+										<a asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID"> Имя: @($"{entity.name}")</a>
+									</header>
+									<div class="mini-posts">
+										<article>
+										<div>
+										<a asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID"> <img src="~/img/@($"{entity.img}")" alt=""/></a>
+										</div>
+											<p>@($"{entity.desc}")</p>
+										</article>
+										<!-- Каринки с текстом с боку-->
+									</div>
+									<ul class="actions">
+										<li><a href="#" class="button">Читать</a></li>
+									</ul>
+								</section>
+								
+
+
+									<section>
+									<header class="major">
+										<h3>Имя: @($"{entity.name}")</h3>
+									</header>
+									<div class="features" style="width: calc(100% + 40em);">
+										<article> 
+										@*	class="features" width: calc(100% + 40em);  img  height: 320px;
+												 width: 205px; если меньше 980 пи то margin: -169px = 20px x x 0px*@
+											<a href="#" class="image"> <img src="~/img/@($"{entity.img}")" alt=""/></a>
+											<div class="content" style="margin: -169px -101px 8px 22px;display: block;">
+												Жанр: @foreach (var genre in entity.Genres)
+						{
+							<a> 
+								@foreach (var g in BooksItem.allGenre)
+							{
+										if (genre.GenreID == g.ID)
+											 genreView.genreName = g.genreName;
+							}	@($"{genreView.genreName}") 
+								 </a>
+						}
+												<p>@($"{entity.desc}")</p>
+											</div>
+										</article>
+										<!-- Каринки с текстом -->
+									</div>
+								</section>
+								}
+				@*	  <asp:DropDownList runat="server" ID="DropdownList1">
+			@foreach (var entity in BooksItem.allGenre)
+			{
+				<asp:ListItem>Option 1</asp:ListItem>
+			}
+            </asp:DropDownList>	
+			 <asp:Button ID="Button1" runat="server" Text="Submit" OnClick="Button1_Click" />*@

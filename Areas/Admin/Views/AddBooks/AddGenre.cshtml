@@ -1,0 +1,20 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Genre
+
+ <div>
+     <h3>@ViewBag.Message</h3>
+<form asp-area="Admin" asp-controller="AddBooks" asp-action="AddGenre" method="post" enctype="multipart/form-data" >
+            <div asp-validation-summary="All"></div>
+            <div class="div-box">
+                <label asp-for="genreName"></label>
+                <input asp-for="genreName" required/>
+                <span asp-validation-for="genreName"></span>
+            </div>
+            <input type="submit" value="Сохранить" />
+        </form>
+        <div/>

@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+    
+@model BooksItem
+@{
+ 
+   
+}
+<div>
+
+    <div>
+        <form asp-area="Admin" asp-controller="AddBooks" asp-action="AddBook" method="post" enctype="multipart/form-data" >
+            <input type="hidden" asp-for="ID" />
+    
+            <div asp-validation-summary="All"></div>
+            <div class="div-box">
+                <label asp-for="name"></label>
+                <input asp-for="name" required/>
+                <span asp-validation-for="name"></span>
+            </div>
+             <div class="div-box">
+                <label asp-for="Autor"></label>
+                <input asp-for="Autor" required/>
+                <span asp-validation-for="Autor"></span>
+            </div>
+             <div class="div-box">
+                <label asp-for="desc"></label>
+                <textarea asp-for="desc" required></textarea>
+                <span asp-validation-for="desc"></span>
+            </div>  
+             <div class="div-box">
+                 <div class="checkselect">
+                    @foreach (var entity in ViewBag.model)
+                    {
+                        <label><input type="checkbox" name="brands" id="brands" value="@entity.ID" display: block;>@entity.ID @entity.genreName </label>
+                    }
+                 
+                 </div>
+              </div>  
+             <div class="div-box">
+                <label asp-for="img"></label>
+                <input  type="file" name="titleImageFile"  id="titleImageFile" accept="image/jpeg,image/png,image/gif" required/>
+                 <input asp-for="img" />
+            </div>
+            <div class="div-box">
+                <label asp-for="price"></label>
+                <input asp-for="price" required/>
+                <span asp-validation-for="price"></span>
+            </div>
+            <div class="div-box">
+                <label asp-for="textBooks.textBook"></label>
+                <textarea asp-for="textBooks.textBook" required></textarea>
+                <span asp-validation-for="textBooks.textBook"></span>
+            </div>  
+            <input type="submit" value="Сохранить" />
+        </form>
+    </div>
+</div>
+<div class="form-group col-xs-4">
+            <label>
+                Исключить жанры
+            </label>
+       </div>
+      <script>
+    window.onload = function() {
+        var newCKEdit = CKEDITOR.replace('@Html.IdFor(x=>x.textBooks.textBook)');
+        newCKEdit.updateElement();
+    }
+</script>
+      

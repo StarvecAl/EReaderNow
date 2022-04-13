@@ -1,0 +1,17 @@
+﻿@{ViewData["Title"] = "Жанры";
+}
+<body>
+
+
+	<div>
+	@foreach(var g in BooksItem.allGenre){
+	<article>
+	<div>
+		<a asp-controller="Books" asp-action="Home" asp-route-id="@g.ID" class="image"><h2>@g.genreName</h2></a>
+	</div>
+	</article>
+	}
+	</div>
+
+
+</body>

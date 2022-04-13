@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AllDescriptionBooks
+<div>    <h3>@ViewBag.Message</h3>
+        <form asp-area="Admin" asp-controller="AddBooks" asp-action="TextBook" method="post" enctype="multipart/form-data" >
+              <div class="div-box">
+                <label asp-for="textBook"></label>
+                <textarea asp-for="textBook" required></textarea>
+                <span asp-validation-for="textBook"></span>
+            </div>  
+                   <input type="submit" value="Сохранить" />
+        </form>
+    </div>
+<script>
+    window.onload = function() {
+        var newCKEdit = CKEDITOR.replace('@Html.IdFor(x=>x.textBook)');
+        newCKEdit.updateElement();
+    }
+</script>

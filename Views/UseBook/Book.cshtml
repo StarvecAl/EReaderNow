@@ -1,0 +1,64 @@
+﻿
+@model BooksItem
+
+ <section id="books">
+     <div>
+@{
+      
+}        
+   @if (Model.name != null)
+                     {
+                         <section>
+									<header class="major">
+										<h2> Имя: @($"{Model.name}")</h2>
+									</header>
+									<div class="mini-posts">
+										<article>
+										<div>
+										<a href="#" class="image1" style="width: 40%;"> <img src="~/img/@($"{Model.img}")" alt=""/></a>
+										</div>
+											<p>@($"{Model.desc}")</p>
+										</article>
+										<!-- Каринки с текстом с боку-->
+									</div>
+									<ul class="actions">
+										<li><a href="#" class="button">Читать</a></li>
+									</ul>
+								</section>
+								
+                    <div>
+                        
+                        <a>
+                           Название:  @($"{Model.name}")                           
+                        </a>
+                        @*<a> Жанр:  @foreach (var entityGenre in entity.genre) { @($"{entityGenre.genreName}")}<a/>*@
+                        <a> Автор: @($"{Model.Autor}") <a/>
+                               <div>
+                               @Html.Raw(Model.textBooks.textBook) @*Преобразует стринг в html*@
+                               </div>
+                  
+                           
+            </div> 
+                
+                  
+           
+        }</div></section>
+         @*@model BooksItem
+
+        
+            <div>
+               
+                    <div>
+                        
+                      
+                           Название:  @($"{Model.name}")                           
+                        </a>
+                        <a> Жанр:  @foreach (var entityGenre in entity.genre) { @($"{entityGenre.genreName}")}<a/>
+                       <a> Автор: @($"{Model.Autor}") <a/>
+                            <t> @($"{Model.textBook.textBooks}") <t/>
+
+                    
+                    </div>
+              
+            </div>*@
+  
