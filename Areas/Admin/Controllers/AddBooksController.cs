@@ -20,11 +20,7 @@ namespace EReaderNow.Areas.Admin.Controllers
             this.hostingEnvironment= hostingEnvironment;
         }
 
-        public IActionResult AddBook()
-        {
-            ViewBag.model = dataManager.BooksItems.GetGenre();
-            return View();
-        }
+       
         public IActionResult TextBook()
         {
             ViewBag.Message = "Добавленно";
@@ -41,6 +37,13 @@ namespace EReaderNow.Areas.Admin.Controllers
                 ViewBag.Message  = "Добавленно:"+model.genreName;
             }
             return View();
+        }
+        
+        public IActionResult AddBook(int id)
+        {
+            ViewBag.model = dataManager.BooksItems.GetGenre();
+            var entity = id == default ? new BooksItem() : dataManager.BooksItems.GetBooksFieldById(id);
+            return View(entity);
         }
         [HttpPost]
         public IActionResult AddBook(BooksItem model, IFormFile titleImageFile, int[] brands)
@@ -60,10 +63,17 @@ namespace EReaderNow.Areas.Admin.Controllers
              Console.WriteLine(model.ID);
             if (brands != null)
             {
-                
+                Genre genre = new Genre();
                 foreach (var brand in brands)
-                {
-                    dataManager.BooksItems.SaveListGenre(model.ID, brand);
+                {   foreach(var b in BooksItem.allGenre)
+                    {
+                        if (brand == b.ID) 
+                        {
+                            genre = b;
+                            break;
+                        }
+                    }
+                    dataManager.BooksItems.SaveListGenre(genre, model);
                 }
 
             }

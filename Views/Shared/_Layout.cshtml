@@ -49,9 +49,9 @@
 
 							<!-- Search -->
 								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
+								<form method="post" asp-area="" asp-controller="Books" asp-action="Home" >
+								<input type="text" name="filtr"  id="filtr" placeholder="Search" />
+								</form>
 								</section>
 
 							<!-- Menu -->
@@ -60,20 +60,20 @@
 										<h2>Меню</h2>
 									</header>
 									<ul>
-										<li><a asp-controller="Home" asp-action="Index" >Главная</a></li>
-										<li><a asp-controller="Books" asp-action="Home" >Книги</a></li>
+										<li><a asp-area="" asp-controller="Home" asp-action="Index" >Главная</a></li>
+										<li><a asp-area="" asp-controller="Books" asp-action="Home" asp-route-id="0" asp-route-id="1" >Книги</a></li>
 										<li>
 											<span  class="opener"><a asp-controller="Books" asp-action="genre" >Жанры</a></span>
 											<ul>
-												<li><a asp-controller="Books" asp-action="genre" >Все жанры</a></li>
+											<li><a asp-controller="Books" asp-action="Home" asp-route-id="">Все жанры</a></li>
 								@if (BooksItem.allGenre != null)
 								{
-									@foreach (var g in BooksItem.allGenre)
+								@foreach (var g in BooksItem.allGenre)
 									{
-										<li><a href="#">@g.genreName </a></li>
+									<li><a name ="@g.ID" asp-area="" asp-controller="Books" asp-action="Home" asp-route-id="@g.ID" asp-route-strange="1" >@g.genreName</a></li>
 									}
 								}
-							</ul>
+							@*	</ul>
 										</li>
 										<li><a href="#">Etiam Dolore</a></li>
 										<li><a href="#">Adipiscing</a></li>
@@ -89,7 +89,7 @@
 										<li><a href="#">Maximus Erat</a></li>
 										<li><a href="#">Sapien Mauris</a></li>
 										<li><a href="#">Amet Lacinia</a></li>
-									</ul>
+									</ul>*@
 								</nav>
 
 							<!-- Section -->

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using EReaderNow.Interfaces;
-using EReaderNow.mocks;
+using System.Web.Mvc;
 using EReaderNow.Data.AddDBMS;
 using EReaderNow;
 using EReaderNow.Data.Repository;
@@ -17,7 +17,6 @@ AddStartup.AppConfiguration.Bind("Project", new Config());
 
 builder.Services.AddMvc();
 // Связываем интерфейсы и реализацию
-builder.Services.AddTransient<IBooksCategory, MockCategory>();
 builder.Services.AddTransient<IAllDescriptionBooks, EFAllDescriptionBooks>();
 builder.Services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();
 builder.Services.AddTransient<IRepositoryCategory, EFBooksItem>();
@@ -95,7 +94,7 @@ else
 
     app.UseEndpoints(endpoints =>
     {
-        Console.WriteLine();
+        
         endpoints.MapRazorPages();
     });
 
@@ -106,16 +105,14 @@ app.UseEndpoints(endpoints =>
        "admin",
        "{area:exists}/{controller=Home}/{action=Index}/{id?}");
     endpoints.MapControllerRoute(
+    name: "",
+    pattern: "{controller=Books}/{action=Home}/{id?}/{strange?}/{*filtr}");
+    endpoints.MapControllerRoute(
     name: "PageIndex",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-    endpoints.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Books}/{action=Home}/{id?}");
+    
     endpoints.MapControllerRoute(
     name: "",
     pattern: "{controller=UseBook}/{action=Book}/{id?}");
-    endpoints.MapControllerRoute(
-   name: "",
-   pattern: "{controller=Books}/{action=genre}/{id?}");
 });
 app.Run();

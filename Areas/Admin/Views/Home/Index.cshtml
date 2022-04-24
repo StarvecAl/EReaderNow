@@ -19,17 +19,16 @@
                 {    @if (entity.name != null)
                      {
                     <div>
-                        <a asp-area="Admin" asp-controller="ServiceItems" asp-action="Edit" asp-route-id="@entity.ID">редактировать</a>
+                        <a asp-area="Admin" asp-controller="AddBooks" asp-action="AddBook" asp-route-id="@entity.ID">редактировать</a>
                         |
                         <form style="display: inline-block;" id="form-@entity.ID" asp-area="Admin" asp-controller="AddBooks" asp-action="Delete" method="post">
                             <input type="hidden" name="id" value="@entity.ID">
                             <a href="#" onclick="document.getElementById('form-@entity.ID').submit();">удалить</a>
                         </form>
                         |           
-                        <a asp-area="" asp-controller="Books" asp-action="Index" asp-route-id="@entity.ID">
+                        <a asp-area="" asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID">
                            Название:  @($"{entity.name}")                           
                         </a>
-                        @*<a> Жанр:  @foreach (var entityGenre in entity.genre) { @($"{entityGenre.genreName}")}<a/>*@
                         <a> Автор: @($"{entity.Autor}") <a/>
                     
                     </div>

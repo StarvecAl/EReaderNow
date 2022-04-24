@@ -18,6 +18,7 @@ namespace EReaderNow.Areas.Admin.Controllers
         {
             return View(dataManager.BooksItems.GetBooksFields());
         }
+       
 
     }
 }

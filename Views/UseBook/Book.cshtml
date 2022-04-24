@@ -1,48 +1,53 @@
 ﻿
 @model BooksItem
 
- <section id="books">
-     <div>
+ 
 @{
       
-}        
+}     
+<section id="books">
+     <div>
    @if (Model.name != null)
                      {
-                         <section>
-									<header class="major">
-										<h2> Имя: @($"{Model.name}")</h2>
-									</header>
-									<div class="mini-posts">
-										<article>
-										<div>
-										<a href="#" class="image1" style="width: 40%;"> <img src="~/img/@($"{Model.img}")" alt=""/></a>
-										</div>
-											<p>@($"{Model.desc}")</p>
-										</article>
-										<!-- Каринки с текстом с боку-->
+                       
+                              
+                <section>
+			<header class="major">
+				<a asp-controller="UseBook" asp-action="Book" asp-route-id="@Model.ID"> Название: @($"{Model.name}")</a>
+			</header>
+			<div class="mini-posts">
+				<article>
+					<div> 
+						<div> @* border: 1px solid rgba(0,0,0,.15);*@
+						<a asp-controller="UseBook" asp-action="Book" asp-route-id="@Model.ID"> <img src="~/img/@($"{Model.img}")" alt=""/></a>
+						</div> 
+						
+						<p>@($"{Model.Autor}")</p>
+						Жанр: @foreach (var genre in Model.Genres)
+						{
+							
+								@foreach (var g in BooksItem.allGenre)
+							{
+										if (genre.Genre.ID == g.ID)
+										{
+							<a asp-controller="Books" asp-action="Home" asp-route-id="@g.ID"> 	@($"{g.genreName}") </a>
+										}
+							}
+						}
+						
+					</div>
+					<p>@($"{Model.desc}")</p>
+				</article>
+				<!-- Каринки с текстом с боку-->
 									</div>
-									<ul class="actions">
-										<li><a href="#" class="button">Читать</a></li>
-									</ul>
-								</section>
-								
-                    <div>
-                        
-                        <a>
-                           Название:  @($"{Model.name}")                           
-                        </a>
-                        @*<a> Жанр:  @foreach (var entityGenre in entity.genre) { @($"{entityGenre.genreName}")}<a/>*@
-                        <a> Автор: @($"{Model.Autor}") <a/>
-                               <div>
-                               @Html.Raw(Model.textBooks.textBook) @*Преобразует стринг в html*@
-                               </div>
-                  
-                           
-            </div> 
-                
-                  
-           
-        }</div></section>
+			<ul class="actions">
+				<li><a asp-area="" asp-controller="UseBook" asp-action="ReadBook" asp-route-id="@Model.ID" class="button">Читать</a></li>
+			</ul>
+		</section>
+                   
+        }</div>
+        
+   
          @*@model BooksItem
 
         

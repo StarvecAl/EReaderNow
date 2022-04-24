@@ -4,14 +4,27 @@
 
 
 	<div>
-	@foreach(var g in BooksItem.allGenre){
-	<article>
-	<div>
-		<a asp-controller="Books" asp-action="Home" asp-route-id="@g.ID" class="image"><h2>@g.genreName</h2></a>
-	</div>
+	<article>  
+		 <section>	
+	<div> 
+								<ul>
+								<li><a asp-controller="Books" asp-action="Home" asp-route-id="">Все жанры</a></li>
+								@if (BooksItem.allGenre != null)
+								{
+								@foreach (var g in BooksItem.allGenre)
+									{
+									<li><a name ="@g.ID" asp-area="" asp-controller="Books" asp-action="Home" asp-route-id="@g.ID" asp-route-strange="1" >@g.genreName</a></li>
+									}
+								}
+								</ul>
+							
+				</div>
+					</select>
+					 
+				
+
 	</article>
-	}
-	</div>
+	</div>@*<a asp-area="" asp-controller="Books" asp-action="Home" asp-route-id="@g.ID" class="image"><h2>@g.genreName</h2></a>*@
 
 
 </body>

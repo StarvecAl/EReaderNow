@@ -14,18 +14,18 @@ namespace EReaderNow.Controllers
             this.dataManager = dataManager;
         }
 
-        public IActionResult Books()
-        {
-            var g = dataManager.AllDescriptionBooks.GetBooksFieldById(1);
-            g.views++;
-            dataManager.BooksItems.SaveBookView(ref g);
-            return View(dataManager.BooksItems.GetBooksInclude());
-            
+        public IActionResult Book(int id)
+        {   
+            var entity = id == default ? new BooksItem() : dataManager.BooksItems.GetBooksFieldById(id);
+            return View(entity);
         }
 
-        public IActionResult Book(int id)
+        public IActionResult ReadBook(int id)
         {
             var entity = id == default ? new BooksItem() : dataManager.BooksItems.GetBooksFieldById(id);
+            entity.textBooks.views++;
+            var g = entity.textBooks;
+            dataManager.BooksItems.SaveBookView(ref g);
             return View(entity);
         }
     }

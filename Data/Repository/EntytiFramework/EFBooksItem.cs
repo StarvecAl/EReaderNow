@@ -14,6 +14,7 @@ namespace EReaderNow.Data.Repository.EntytiFramework
         {
             
             this.context = context;
+            // Сохраняет полный список жанров при первом обращении к БД
             BooksItem.allGenre = context.genres.ToList();
         }
 
@@ -21,31 +22,31 @@ namespace EReaderNow.Data.Repository.EntytiFramework
         {
             return context.BooksItem;
         }
-        public IQueryable<BooksItem>  GetBooksInclude()
+        public IQueryable<BooksItem>  GetBooksInclude(int i)
         {
-            return context.BooksItem.Include(c=> c.textBooks).Include(x=> x.Genres);
+            return context.BooksItem.Skip(i - 1).Include(c=> c.textBooks).Include(x=> x.Genres).Take(20);
         }
         public IQueryable<Genre> GetGenre()
         {
             return context.genres;
         }
-        public List<BooksItem> GetBooksGnenre(int genre)
+        public List<BooksItem> GetBooksGnenre(int genre,int skip)
         {
-            IQueryable<int?> genreBooks = context.listGenre.Where(y => y.GenreID == genre).Select(x=> x.BooksItemID);
-            List<BooksItem> booksItems = new List<BooksItem>();
-            foreach (int genreBook in genreBooks)
-            {
-                booksItems.Add(GetBooksFieldById(genreBook));
-            }
-            return booksItems;
+            IQueryable<BooksItem> genreBooks = context.listGenre.Where(y => y.Genre.ID == genre).Include(x => x.BooksItem.Genres).Select(x=> x.BooksItem).Skip(skip - 1).Take(20);
+            
+            return genreBooks.ToList();
         }
-     /*   public string GetGenreById(int id)
+        public List<BooksItem> GetBooksGnenre(int? genre, int skip, string filtr)
         {
-      
-            foreach (var genre in genre)
-            { if(genre.ID ==id ) return genre.genreName; }
-            return null;
-        }*/
+            if (genre != null && genre != 0)
+            {
+                IQueryable<BooksItem> genreBooks = context.listGenre.Where(y => y.Genre.ID == genre).Include(x => x.BooksItem.Genres).Select(x => x.BooksItem).Where(x => EF.Functions.Like(x.name!, "%" + filtr + "%")).Skip(skip - 1).Take(20);
+
+                return genreBooks.ToList();
+            }
+            else return context.BooksItem.Where(x => EF.Functions.Like(x.name!, "%" + filtr + "%")).Include(x => x.Genres).ToList();
+
+        }
         public void Save(BooksItem entity)
         {
 
@@ -57,9 +58,9 @@ namespace EReaderNow.Data.Repository.EntytiFramework
             context.Add(entity);
             context.SaveChanges();
         }
-        public void SaveListGenre(int idBook, int idGenre)
+        public void SaveListGenre(Genre genre, BooksItem book)
         {
-            ListGenre entity2 = new ListGenre() { BooksItemID = idBook, GenreID = idGenre };
+            ListGenre entity2 = new ListGenre() { BooksItem = book, Genre = genre };
             context.Add(entity2);
             context.SaveChanges();
 

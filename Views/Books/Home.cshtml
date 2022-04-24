@@ -3,44 +3,57 @@
 @{
 	ViewData["Title"] = "Книги";
 	var genreView = new Genre();	
-	int c = 0; 
+	int c = 0,m = 0; 
+
 }
  <body>
- <h1>@ViewBag.genreTag</h1>
+ <h2>@ViewBag.genreTag.genreName</h2>
 </body>
+@*Выпадающий список,выбора жанра, работающий на джаве*@
 	 <section>	
 		<div class="div-box">
 		<form method="post">
             		<h3> По жанру:</h3>
-					<select name="genre">
+					<select name="id" >
                     @foreach (Genre entity in BooksItem.allGenre)
                     {  
-						<label><option value="@entity.genreName"> @entity.genreName </option></label>
-                    }
+						<label><option value="@entity.ID"> @entity.genreName </option></label>
+                    }@*asp-area="" asp-controller="Books" asp-action="Home" asp-route-id="@entity.ID"*@
 					</select>
 					 <input type="submit" value="Выбрать" />
 				</form>
+				<form method="post" asp-area="" asp-controller="Books" asp-action="Home" >
+				
+					<input type="text" name="filtr"  id="filtr" placeholder="Search" />
+					
+				</form>
                 </div> 
-			  <div class="posts">	
-				@for (int i = 1; i < 10; i++)
+				@*<a name ="@entity.ID" href="https://localhost:7153/Books/Home/@ViewBag.genreTag.ID/1" >@entity.genreName</a>*@
+				
+				
+			  <div class="posts">
+				 
+				  @*Отображение книг*@
+				
 				@foreach (BooksItem entity in Model)
 			{					
-				
 				<article>
 					<a asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID" class="image"> <img src="~/img/@($"{entity.img}")" alt=""/></a>
+					<a>@($"{entity.Autor}")</a>
 					<h3>  Название: @($"{entity.name}")</h3><div>
 						Жанр: @foreach (var genre in entity.Genres)
 						{
-							<a> 
+							
 								@foreach (var g in BooksItem.allGenre)
 							{
-										if (genre.GenreID == g.ID)
-											 genreView.genreName = g.genreName;
-							}	@($"{genreView.genreName}") 
-								 </a>
+										if (genre.Genre.ID == g.ID)
+											 genreView = g;
+							}<a asp-controller="Books" asp-action="Home" asp-route-id="@genreView.ID"> 	@($"{genreView.genreName}") </a>
+							
 						}
+
 					<div class = "container">
-					<div class="box"> 
+					<div class = "box"> 
 					@($"{entity.desc}")
 					</div>	
 					</div>
@@ -58,13 +71,63 @@
 					<a class="sss" >@(c++)</a>
 					
 					</div>
-				</article>@if(c>=24)break;
+				</article>
 				
-			}</div>
-
+			}
+	</div>
 </section>
-<-- Section -->	
-@foreach (BooksItem entity in Model)
+@*/////////////////////////*@
+
+@if (m == 0)
+{
+	@foreach (BooksItem entity in Model)
+	{
+		<section>
+			<header class="major">
+				<a asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID"> Название: @($"{entity.name}")</a>
+			</header>
+			<div class="mini-posts">
+				<article>
+					<div> 
+						<div> @* border: 1px solid rgba(0,0,0,.15);*@
+						<a asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID"> <img src="~/img/@($"{entity.img}")" alt=""/></a>
+						</div> 
+						
+						<p>@($"{entity.Autor}")</p>
+						Жанр: @foreach (var genre in entity.Genres)
+						{
+							
+								@foreach (var g in BooksItem.allGenre)
+							{
+										if (genre.Genre.ID == g.ID)
+											 genreView = g;
+							}
+							<a asp-controller="Books" asp-action="Home" asp-route-id="@genreView.ID"> 	@($"{genreView.genreName}") </a>
+						}
+						
+					</div>
+					<p>@($"{entity.desc}")</p>
+				</article>
+				<!-- Каринки с текстом с боку-->
+									</div>
+			<ul class="actions">
+				<li><a href="#" class="button">Читать</a></li>
+			</ul>
+		</section>
+	}
+}
+<div>
+		
+		@for (int i = 1; i <= 10; i++)
+		{ 
+		@*@Html.ActionLink(i.ToString(),"Home", "Books" , new {id = ViewBag.genreTag.ID,strange = i.ToString(),})*@//Так не работает:(
+		@*<a name ="@i" href="@Url.Action("Home", "Books",new { id = 0,strange = i.ToString() }, null)" >@i</a>*@ //Так не работает:(
+		<a name ="@i"  asp-area="" asp-controller="Books" asp-action="Home" asp-route-id="@ViewBag.genreTag.ID" asp-route-strange="@i">@i</a>
+		}    
+
+	</div>
+@*<-- Section -->	*@
+@*@foreach (BooksItem entity in Model)
 			{
 								<section>
 									<header class="major">
@@ -92,8 +155,7 @@
 									</header>
 									<div class="features" style="width: calc(100% + 40em);">
 										<article> 
-										@*	class="features" width: calc(100% + 40em);  img  height: 320px;
-												 width: 205px; если меньше 980 пи то margin: -169px = 20px x x 0px*@
+										
 											<a href="#" class="image"> <img src="~/img/@($"{entity.img}")" alt=""/></a>
 											<div class="content" style="margin: -169px -101px 8px 22px;display: block;">
 												Жанр: @foreach (var genre in entity.Genres)
@@ -112,11 +174,6 @@
 										<!-- Каринки с текстом -->
 									</div>
 								</section>
-								}
-				@*	  <asp:DropDownList runat="server" ID="DropdownList1">
-			@foreach (var entity in BooksItem.allGenre)
-			{
-				<asp:ListItem>Option 1</asp:ListItem>
-			}
-            </asp:DropDownList>	
-			 <asp:Button ID="Button1" runat="server" Text="Submit" OnClick="Button1_Click" />*@
+								}*@
+								@*	class="features" width: calc(100% + 40em);  img  height: 320px;
+												 width: 205px; если меньше 980 пи то margin: -169px = 20px x x 0px*@
