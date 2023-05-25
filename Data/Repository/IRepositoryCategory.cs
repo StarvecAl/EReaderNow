@@ -5,7 +5,7 @@ namespace EReaderNow.Data.Repository
 {
     public interface IRepositoryCategory
     {
-
+        //список книг
         IQueryable<BooksItem> GetBooksFields();
        
         IQueryable<Genre> GetGenre();

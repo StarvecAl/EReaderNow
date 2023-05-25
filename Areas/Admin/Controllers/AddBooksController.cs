@@ -6,20 +6,20 @@ using EReaderNow.Data.Service;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using EReaderNow.ViewModel;
 
+
 namespace EReaderNow.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class AddBooksController : Controller
-    {   public ICollection<Genre> Genres { get; set; }
+    { public ICollection<Genre> Genres { get; set; }
         private readonly DataManager dataManager;
         private readonly IWebHostEnvironment hostingEnvironment;
         // GET: AddBook
-        public AddBooksController(DataManager dataManager,IWebHostEnvironment hostingEnvironment)
+        public AddBooksController(DataManager dataManager, IWebHostEnvironment hostingEnvironment)
         {
             this.dataManager = dataManager;
-            this.hostingEnvironment= hostingEnvironment;
+            this.hostingEnvironment = hostingEnvironment;
         }
-
        
         public IActionResult TextBook()
         {
@@ -35,6 +35,7 @@ namespace EReaderNow.Areas.Admin.Controllers
                     dataManager.BooksItems.SaveGenre(model);
 
                 ViewBag.Message  = "Добавленно:"+model.genreName;
+                Console.WriteLine(model.genreName + "AddGenre");
             }
             return View();
         }
@@ -46,10 +47,18 @@ namespace EReaderNow.Areas.Admin.Controllers
             return View(entity);
         }
         [HttpPost]
+        public async Task<IActionResult> Delete(int ID)
+        {
+          
+            dataManager.BooksItems.DeleteBooksField(ID);
+            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
+        }
+        [HttpPost]
+
         public IActionResult AddBook(BooksItem model, IFormFile titleImageFile, int[] brands)
         {
            
-           Console.WriteLine(model.ID);
+           Console.WriteLine(model.ID + "AddBook");
             if (titleImageFile != null)
                 {
                     model.img = titleImageFile.FileName;
@@ -59,8 +68,9 @@ namespace EReaderNow.Areas.Admin.Controllers
                     }
                 }
             dataManager.BooksItems.SaveBooksField(model.textBooks);
+            Console.WriteLine(model.ID + "Save text");
             dataManager.BooksItems.SaveBooksField(model);
-             Console.WriteLine(model.ID);
+             Console.WriteLine(model.ID +"Save");
             if (brands != null)
             {
                 Genre genre = new Genre();
@@ -74,12 +84,14 @@ namespace EReaderNow.Areas.Admin.Controllers
                         }
                     }
                     dataManager.BooksItems.SaveListGenre(genre, model);
+                    Console.WriteLine(model.ID + "Save genre");
                 }
 
             }
             else return View();
-            
-            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());  
+           
+
+                return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());  
         }
     }
 }

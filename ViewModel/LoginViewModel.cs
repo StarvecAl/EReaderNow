@@ -1,18 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EReaderNow.Models
+namespace EReaderNow.ViewModel
 {
     public class LoginViewModel
     {
-            [Required]
-            [Display(Name = "Логин")]
-            public string UserName { get; set; }
-            [Required]
-            [UIHint("password")]
-            [Display(Name = "Пароль")]
-            public string Password { get; set; }
-            [Display(Name = "Запомнить меня?")]
-            public bool RememberMe { get; set; }
-        
+        [Required]
+        [Display(Name = "Логин")]
+        public string UserName { get; set; }
+        [Required]
+        [UIHint("password")]
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
+        [Display(Name = "Запомнить меня?")]
+        public bool RememberMe { get; set; }
+        public string ReturnUrl { get; set; } = "%2FAdmin%2FHome";
     }
 }

@@ -34,7 +34,7 @@
 			  <div class="posts">
 				 
 				  @*Отображение книг*@
-				
+				@for(int i = 1; i < 4; i++){  
 				@foreach (BooksItem entity in Model)
 			{					
 				<article>
@@ -50,7 +50,7 @@
 											 genreView = g;
 							}<a asp-controller="Books" asp-action="Home" asp-route-id="@genreView.ID"> 	@($"{genreView.genreName}") </a>
 							
-						}
+						} 
 
 					<div class = "container">
 					<div class = "box"> 
@@ -73,12 +73,12 @@
 					</div>
 				</article>
 				
-			}
+			}}
 	</div>
 </section>
 @*/////////////////////////*@
 
-@if (m == 0)
+@*@if (m == 0)
 {
 	@foreach (BooksItem entity in Model)
 	{
@@ -89,7 +89,7 @@
 			<div class="mini-posts">
 				<article>
 					<div> 
-						<div> @* border: 1px solid rgba(0,0,0,.15);*@
+						<div> 
 						<a asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID"> <img src="~/img/@($"{entity.img}")" alt=""/></a>
 						</div> 
 						
@@ -115,7 +115,7 @@
 			</ul>
 		</section>
 	}
-}
+}*@
 <div>
 		
 		@for (int i = 1; i <= 10; i++)

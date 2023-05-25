@@ -38,8 +38,7 @@
 								</section>
 
 							<!-- Section -->
-								
-
+					
 						</div>
 					</div>
 
@@ -61,7 +60,9 @@
 									</header>
 									<ul>
 										<li><a asp-area="" asp-controller="Home" asp-action="Index" >Главная</a></li>
-										<li><a asp-area="" asp-controller="Books" asp-action="Home" asp-route-id="0" asp-route-id="1" >Книги</a></li>
+										<li><a asp-area="" asp-controller="Books" asp-action="Home"  >Книги</a></li>
+										<li><a asp-area="" asp-controller="Account" asp-action="Register"  >Регистрация</a></li>
+								<li><a asp-area="" asp-controller="Account" asp-action="Login" asp-route-id="0" asp-route-id="1" >Авторизация</a></li>
 										<li>
 											<span  class="opener"><a asp-controller="Books" asp-action="genre" >Жанры</a></span>
 											<ul>
@@ -73,6 +74,8 @@
 									<li><a name ="@g.ID" asp-area="" asp-controller="Books" asp-action="Home" asp-route-id="@g.ID" asp-route-strange="1" >@g.genreName</a></li>
 									}
 								}
+								
+								
 							@*	</ul>
 										</li>
 										<li><a href="#">Etiam Dolore</a></li>

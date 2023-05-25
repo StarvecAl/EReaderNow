@@ -1,6 +1,6 @@
 ﻿using EReaderNow.Data.AddDBMS;
 using EReaderNow.Data.Domain;
-using System.Data.Entity;
+
 using Microsoft.EntityFrameworkCore;
 
 

@@ -11,6 +11,7 @@ namespace EReaderNow.Data.AddDBMS
     {
         public AddDB(DbContextOptions<AddDB> options) : base(options) { }
         public DbSet<BooksItem> BooksItem { get; set; }
+        public DbSet<Token> Tokens { get; set; }
         public DbSet<TextField> TextField { get; set; }
         public DbSet<Genre> genres { get; set; }
         public DbSet<ListGenre> listGenre { get; set; }
@@ -30,7 +31,7 @@ namespace EReaderNow.Data.AddDBMS
             });
             builder.Entity<IdentityUser>().HasData(new IdentityUser
             {
-                Id = "cf7f86b3-6f3b-46f7-b519-b091003a5f56",
+                Id = "cf7f86b3-6f3b-46f7-b519-b091003a5f56", //ТОкен
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
                 Email = "s.doctor608@gmail.com",
@@ -42,6 +43,28 @@ namespace EReaderNow.Data.AddDBMS
                 RoleId = "2df552e1-149c-4a91-a5b8-7b368662daa1",
                 UserId = "cf7f86b3-6f3b-46f7-b519-b091003a5f56"
             });
+
+            builder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = "a5394e23-2fc4-42a9-abed-91c42afb6d09",
+                Name = "User",
+                NormalizedName = "USER"
+            });
+            builder.Entity<IdentityUser>().HasData(new IdentityUser
+            {
+                Id = "7a89fbc9-3f93-4e3f-86a2-fa3f4f532dee",
+                UserName = "User",
+                NormalizedUserName = "USER",
+                Email = "s.doctor1@gmail.com",
+                EmailConfirmed = true,
+                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "superpassword2")
+            });
+            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = "a5394e23-2fc4-42a9-abed-91c42afb6d09",
+                UserId = "7a89fbc9-3f93-4e3f-86a2-fa3f4f532dee"
+            });
+
             builder.Entity<TextField>().HasData(new TextField
             {
                 ID = new Guid ("2880b3ea-9e5e-4493-9b62-37d8c9a225af"),

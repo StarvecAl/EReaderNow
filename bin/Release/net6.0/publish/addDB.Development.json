@@ -1,0 +1,6 @@
+{
+  "Project": {
+    "ConnectionBDStrings": "Data Source=SQL8001.site4now.net;Initial Catalog=db_a860fb_ereadernow;User Id=db_a860fb_ereadernow_admin;Password=Swy3237u;",
+    "CompanyName": "Я и сам своего рода компания"
+  }
+}

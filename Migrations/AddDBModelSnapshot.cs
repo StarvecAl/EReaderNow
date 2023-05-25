@@ -17,10 +17,10 @@ namespace EReaderNow.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("ProductVersion", "7.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("EReaderNow.Data.Domain.AllDescriptionBooks", b =>
                 {
@@ -28,7 +28,7 @@ namespace EReaderNow.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("textBook")
                         .IsRequired()
@@ -48,16 +48,16 @@ namespace EReaderNow.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Autor")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1200)
+                        .HasColumnType("nvarchar(1200)");
 
                     b.Property<string>("desc")
                         .IsRequired()
-                        .HasMaxLength(1200)
-                        .HasColumnType("nvarchar(1200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("img")
                         .IsRequired()
@@ -82,11 +82,11 @@ namespace EReaderNow.Migrations
 
             modelBuilder.Entity("EReaderNow.Data.Domain.Coments", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int>("BooksItemID")
                         .HasColumnType("int");
@@ -99,7 +99,7 @@ namespace EReaderNow.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.HasIndex("BooksItemID");
 
@@ -112,7 +112,7 @@ namespace EReaderNow.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("genreName")
                         .IsRequired()
@@ -129,17 +129,19 @@ namespace EReaderNow.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int?>("BooksItemID")
+                    b.Property<int>("BooksItemID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GenreID")
+                    b.Property<int>("GenreID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("BooksItemID");
+
+                    b.HasIndex("GenreID");
 
                     b.ToTable("listGenre");
                 });
@@ -173,7 +175,7 @@ namespace EReaderNow.Migrations
                         new
                         {
                             ID = new Guid("2880b3ea-9e5e-4493-9b62-37d8c9a225af"),
-                            DateAdded = new DateTime(2022, 4, 11, 15, 56, 20, 302, DateTimeKind.Utc).AddTicks(6774),
+                            DateAdded = new DateTime(2023, 3, 27, 3, 18, 11, 868, DateTimeKind.Utc).AddTicks(3650),
                             codeWord = "PageIndex",
                             text = "Содержание заполняется администратором",
                             title = "Главная"
@@ -181,7 +183,7 @@ namespace EReaderNow.Migrations
                         new
                         {
                             ID = new Guid("8008dbbc-ba1e-4247-85af-79d40c75c3aa"),
-                            DateAdded = new DateTime(2022, 4, 11, 15, 56, 20, 302, DateTimeKind.Utc).AddTicks(6840),
+                            DateAdded = new DateTime(2023, 3, 27, 3, 18, 11, 868, DateTimeKind.Utc).AddTicks(3732),
                             codeWord = "PageBooks",
                             text = "Содержание заполняется администратором",
                             title = "Все книги"
@@ -189,11 +191,28 @@ namespace EReaderNow.Migrations
                         new
                         {
                             ID = new Guid("a9d6e8f4-1592-437a-8162-82e46e40ff27"),
-                            DateAdded = new DateTime(2022, 4, 11, 15, 56, 20, 302, DateTimeKind.Utc).AddTicks(6871),
+                            DateAdded = new DateTime(2023, 3, 27, 3, 18, 11, 868, DateTimeKind.Utc).AddTicks(3957),
                             codeWord = "PageGenre",
                             text = "Содержание заполняется администратором",
                             title = "Жанры"
                         });
+                });
+
+            modelBuilder.Entity("EReaderNow.Data.Domain.Token", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("tokenValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Tokens");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -226,9 +245,14 @@ namespace EReaderNow.Migrations
                         new
                         {
                             Id = "2df552e1-149c-4a91-a5b8-7b368662daa1",
-                            ConcurrencyStamp = "4e5c857d-b171-451f-972f-cb139a7d25ab",
                             Name = "admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "a5394e23-2fc4-42a9-abed-91c42afb6d09",
+                            Name = "User",
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -238,7 +262,7 @@ namespace EReaderNow.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -326,16 +350,31 @@ namespace EReaderNow.Migrations
                         {
                             Id = "cf7f86b3-6f3b-46f7-b519-b091003a5f56",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e60fcaee-08bf-49c1-8d4a-583c3baf5118",
+                            ConcurrencyStamp = "361d91c8-cc02-408f-85e9-7acda0ccea4e",
                             Email = "s.doctor608@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPE3Mdfq6D0VS9GqC3woL93q1olNdeBGZP2JV3zZJD6cgpq8tM8vQLeme1og0v3H8A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPaRiMbbLibWGC7AVdOrQmDTU2DNHXUlussOUCE/HserKlhl1GB7xug3MkifOjWB3w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dfe96155-45a8-4075-b4d5-a904164e773e",
+                            SecurityStamp = "9637bf99-5429-4c0a-8a64-69bbafcba7c8",
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = "7a89fbc9-3f93-4e3f-86a2-fa3f4f532dee",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a146a0c5-93b2-4958-a9ec-b054b920dcfa",
+                            Email = "s.doctor1@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "USER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAy/V4Kc6TPnNAKmKvB6vGBFfHysl3QzD2Fae1JucuKiqXUMDAcONTYJUrZMG8Xc4g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "55ef1388-8e8b-445e-8f40-10ba997134b5",
+                            TwoFactorEnabled = false,
+                            UserName = "User"
                         });
                 });
 
@@ -345,7 +384,7 @@ namespace EReaderNow.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -405,6 +444,11 @@ namespace EReaderNow.Migrations
                         {
                             UserId = "cf7f86b3-6f3b-46f7-b519-b091003a5f56",
                             RoleId = "2df552e1-149c-4a91-a5b8-7b368662daa1"
+                        },
+                        new
+                        {
+                            UserId = "7a89fbc9-3f93-4e3f-86a2-fa3f4f532dee",
+                            RoleId = "a5394e23-2fc4-42a9-abed-91c42afb6d09"
                         });
                 });
 
@@ -451,9 +495,21 @@ namespace EReaderNow.Migrations
 
             modelBuilder.Entity("EReaderNow.Data.Domain.ListGenre", b =>
                 {
-                    b.HasOne("EReaderNow.Data.Domain.BooksItem", null)
+                    b.HasOne("EReaderNow.Data.Domain.BooksItem", "BooksItem")
                         .WithMany("Genres")
-                        .HasForeignKey("BooksItemID");
+                        .HasForeignKey("BooksItemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EReaderNow.Data.Domain.Genre", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BooksItem");
+
+                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

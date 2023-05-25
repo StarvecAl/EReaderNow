@@ -28,7 +28,7 @@ namespace EReaderNow.Data.Repository.EntytiFramework
         }
         public IQueryable<Genre> GetGenre()
         {
-            return context.genres;
+            return context.genres; 
         }
         public List<BooksItem> GetBooksGnenre(int genre,int skip)
         {

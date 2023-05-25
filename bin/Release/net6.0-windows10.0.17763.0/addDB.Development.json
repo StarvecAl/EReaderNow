@@ -1,0 +1,6 @@
+{
+  "Project": {
+    "ConnectionBDStrings": "Data Source=DESKTOP-OP3SIKL;Database=EReaderNow;Persist Security Info=False;User ID='sa';Password='admin';MultipleActiveResultSets=True;Trusted_Connection=False;",
+    "CompanyName": "Я и сам своего рода компания"
+  }
+}

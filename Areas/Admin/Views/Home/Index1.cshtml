@@ -1,0 +1,47 @@
+﻿@page
+@model EReaderNow.Areas.Admin.Views.Home.Index1Model
+@{
+    string strTitle = "Панель администратора";
+    ViewBag.Title = strTitle;
+    
+}
+
+<div>
+    <h2>@strTitle</h2>
+    <div>
+        <h3>Список жанров</h3>
+        <div class="div-box">
+            <a asp-area="Admin" asp-controller="AddBooks" asp-action="AddBook" asp-route-id="">Добавить книгу</a>
+        </div>
+
+        
+            <div>
+                @foreach (Genre entity in BooksItem.allGenre)
+                {    @if (entity.genreName != null)
+                     {
+                    <div>
+                        <a asp-area="Admin" asp-controller="AddBooks" asp-action="AddBook" asp-route-id="@entity.ID">редактировать</a>
+                        |
+                        <form style="display: inline-block;" id="form-@entity.ID" asp-area="Admin" asp-controller="AddBooks" asp-action="Delete" method="post">
+                            <input type="hidden" name="id" value="@entity.ID">
+                            <a href="#" onclick="document.getElementById('form-@entity.ID').submit();">удалить</a>
+                        </form>
+                        |           
+                        <a asp-area="" asp-controller="UseBook" asp-action="Book" asp-route-id="@entity.ID">
+                           Название:  @($"{entity.genreName}")                           
+                        </a>
+                    
+                    
+                    </div>
+                } }
+            </div>
+        
+    </div>
+    <div class="div-box">
+    </div>
+    <div class="div-box">
+        <form asp-area="" asp-controller="account" asp-action="Logout" method="post">
+            <input type="submit" value="Выйти" />
+        </form>
+    </div>
+</div>

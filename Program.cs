@@ -1,12 +1,19 @@
+using Microsoft.Extensions.DependencyInjection;
+/*using Microsoft.Extensions.DependencyInjection.Abstractions;*/
+using Microsoft.AspNetCore.Identity;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using EReaderNow.Interfaces;
-using System.Web.Mvc;
 using EReaderNow.Data.AddDBMS;
 using EReaderNow;
 using EReaderNow.Data.Repository;
 using EReaderNow.Data.Repository.EntytiFramework;
 using EReaderNow.Data.Service;
-using Microsoft.AspNetCore.Identity;
+using EReaderNow.Data.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +24,21 @@ AddStartup.AppConfiguration.Bind("Project", new Config());
 
 builder.Services.AddMvc();
 // Связываем интерфейсы и реализацию
-builder.Services.AddTransient<IAllDescriptionBooks, EFAllDescriptionBooks>();
+
 builder.Services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();
 builder.Services.AddTransient<IRepositoryCategory, EFBooksItem>();
 builder.Services.AddTransient<DataManager>();
 // Add Bd
 builder.Services.AddDbContext<AddDB>(x => x.UseSqlServer(Config.ConnectionBDStrings));
-// identity system
+builder.Services.AddControllers();// используем контроллеры без представлений
+                                  // identity system
+
+builder.Services.AddScoped<AddDB>();
+builder.Services.AddScoped<BooksItemController>();
+builder.Services.AddScoped<AccountAPIController>();
+builder.Services.AddSingleton<IDbContextFactory, DbContextFactory>();
+/*builder.Services.AddScoped<IServiceScopeFactory, ServiceScopeFactory>();*/
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     // Password settings.
@@ -50,8 +65,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.Name = "myCompanyAuth";
     options.Cookie.HttpOnly = true;
-    options.LoginPath = "/account/login";
-    options.AccessDeniedPath = "/accounl/accessdenied";
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/Login";
   
     options.SlidingExpiration = true;
 });
@@ -81,7 +96,7 @@ else
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
-}
+}   
     app.UseHttpsRedirection();
     // Подключаем поддержку статичных файлов
     app.UseStaticFiles();
