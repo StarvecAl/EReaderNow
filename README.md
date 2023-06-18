@@ -9,7 +9,7 @@
 
   <p align="center">
     Electronic Library Mobile Application Project
-    (НЕ ЗАПОЛНЕНО)
+
     <br />
     <a href="***"><strong>Explore the docs »</strong></a>
     <br />
