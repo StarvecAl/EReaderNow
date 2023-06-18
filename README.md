@@ -10,10 +10,10 @@
   <p align="center">
     Electronic Library Mobile Application Project
 
-    <br />
+    <br></br>
     <a href="***"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
+   <br> </br>
+
     <a href="***">View Demo</a>
     ·
     <a href="***">Report Bug</a>
